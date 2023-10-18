@@ -5,6 +5,7 @@ export interface ICurrentUser {
   id: string;
   email: string;
   role: string;
+  user_id: string;
 }
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
