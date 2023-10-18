@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import Book from '../model/book.model';
 import User from '../model/user.model';
+import { isAuthor } from '../middleware/author.middleware';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
   return res.status(200).json({ books });
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', isAuthor, async (req: Request, res: Response) => {
   try {
     const { title, text } = req.body;
     const author = req.user;
@@ -43,7 +44,7 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/:bookId', async (req: Request, res: Response) => {
+router.delete('/:bookId', isAuthor, async (req: Request, res: Response) => {
   try {
     const { bookId } = req.params;
     const oldBook = await Book.findById(bookId);
